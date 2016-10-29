@@ -1,0 +1,31 @@
+ffmpeg -i input-file.ogg -filter_complex "[0:a]showwaves=s=1280x720,format=yuv420p[vid]" -map "[vid]" -map 0:a -codec:v libx264 -crf 18 -preset fast -codec:a aac -strict -2 -b:a 192k output.mp4
+
+
+ffmpeg -i input-file.ogg -filter_complex \
+"[0:a]showwaves=s=1280x720:mode=line:rate=25,format=yuv420p[v]" \
+-map "[v]" output-effect-1.mp4
+
+
+ffmpeg -i input-file.ogg -filter_complex \
+"[0:a]avectorscope=s=1280x720,format=yuv420p[v]" \
+-map "[v]" -map 0:a output-effect-2.mp4
+
+
+ffmpeg -i input-file-1.ogg -filter_complex \
+"[0:a]showcqt,format=yuv420p[v]" \
+-map "[v]" -strict -2 -map 0:a output-effect-3.mp4
+
+
+ffmpeg -i input-file.ogg -filter_complex \
+"[0:a]avectorscope=s=1280x720,format=yuv420p[v]" \
+-map "[v]" -strict -2 -map 0:a output-effect-2.mp4
+
+ffmpeg -i input-file.ogg -filter_complex \
+"[0:a]showfreqs=mode=line:fscale=log,format=yuv420p[v]" \
+-map "[v]" -strict -2 -map 0:a output-effect-4.mp4
+
+ffmpeg -i input-file.ogg -filter_complex \
+"[0:a]showvolume=f=1:b=4:w=720:h=68,format=yuv420p[vid]" \
+-map "[vid]" -strict -2 -map 0:a output-effect-5.mp4
+
+ffmpeg -i input-file.ogg -map 0 -c:v copy -af aecho=0.6:0.3:1000:0.5 -strict -2 output-effect-6.mp4
