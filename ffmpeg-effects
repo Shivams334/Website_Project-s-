@@ -31,3 +31,7 @@ ffmpeg -i input-file.ogg -filter_complex \
 ffmpeg -i input-file.ogg -map 0 -c:v copy -af aecho=0.6:0.3:1000:0.5 -strict -2 output-effect-6.mp4
 
 ffmpeg -i "concat:image1.ts|image2.ts|image3.ts|image4.ts|image5.ts|image6.ts|image7.ts|image8.ts|image9.ts|image10.ts" -pix_fmt rgb24 output.gif
+
+ffmpeg -i output.mp4 -i outfile-alpha.mp4 -filter_complex "[0:v]setpts=PTS-STARTPTS, scale=480x360[top];[1:v]setpts=PTS-STARTPTS, scale=480x360,format=yuva420p,colorchannelmixer=aa=0.5[bottom];[top][bottom]overlay" -strict -2 outfilebeta.mp4
+
+ffmpeg -i giflal.gif -f mpegts image1.ts
