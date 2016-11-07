@@ -39,3 +39,7 @@ ffmpeg -i giflal.gif -f mpegts image1.ts
 ffmpeg -f gif -i output.gif outfile-alpha.mp4
 
 ffplay -i outfile.mp4  -vf "split[a][b];[a]format=gray,waveform,split[c][d];[b]pad=iw:ih+256[padded];[c]geq=g=1:b=1[red];[d]geq=r=1:b=1,crop=in_w:220:0:16[mid];[red][mid]overlay=0:16[wave];[padded][wave]overlay=0:H-h"
+
+ffmpeg -i outfile.mp4 -filter_complex \
+"[0:a]showcqt,format=yuv420p[v]" \
+-map "[v]" -strict -2 -map 0:a output-effect-alpha.mp4
