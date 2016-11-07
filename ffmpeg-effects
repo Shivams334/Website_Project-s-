@@ -35,3 +35,7 @@ ffmpeg -i "concat:image1.ts|image2.ts|image3.ts|image4.ts|image5.ts|image6.ts|im
 ffmpeg -i output.mp4 -i outfile-alpha.mp4 -filter_complex "[0:v]setpts=PTS-STARTPTS, scale=480x360[top];[1:v]setpts=PTS-STARTPTS, scale=480x360,format=yuva420p,colorchannelmixer=aa=0.5[bottom];[top][bottom]overlay" -strict -2 outfilebeta.mp4
 
 ffmpeg -i giflal.gif -f mpegts image1.ts
+
+ffmpeg -f gif -i output.gif outfile-alpha.mp4
+
+ffplay -i outfile.mp4  -vf "split[a][b];[a]format=gray,waveform,split[c][d];[b]pad=iw:ih+256[padded];[c]geq=g=1:b=1[red];[d]geq=r=1:b=1,crop=in_w:220:0:16[mid];[red][mid]overlay=0:16[wave];[padded][wave]overlay=0:H-h"
