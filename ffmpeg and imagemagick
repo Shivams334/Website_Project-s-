@@ -43,3 +43,7 @@ ffplay -i outfile.mp4  -vf "split[a][b];[a]format=gray,waveform,split[c][d];[b]p
 ffmpeg -i outfile.mp4 -filter_complex \
 "[0:a]showcqt,format=yuv420p[v]" \
 -map "[v]" -strict -2 -map 0:a output-effect-alpha.mp4
+
+---------------------------------------Audio Visualization------------------------------------------------------------
+ffmpeg -i final.mp4 -i output.png -filter_complex "[0:v][1:v] overlay=(W-w)/2:(H-h)/1.8:enable='between(t,0,20)'" -pix_fmt yuv420p -c:a copy output.mp4
+
