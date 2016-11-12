@@ -1,0 +1,19 @@
+Change gif to mp4 video:
+ffmpeg -f gif -i input.gif output.mp4
+--------------------------------------------------------------------------------
+Lopping an mp4 file:
+First-Make a list.text file. Contents of an example text file to repeat 4 times:
+   file 'input.mp4'
+   file 'input.mp4'
+   file 'input.mp4'
+   file 'input.mp4'
+
+Second-ffmpeg -f concat -i list.txt -c copy output.mp4
+--------------------------------------------------------------------------------
+Overlaying two videos:
+ffmpeg -i inpu-1.mp4 -vf "movie=input-2.mp4[inner];[in][inner] overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2 [out]" overlayed-output.mp4
+--------------------------------------------------------------------------------
+Overlaying Image on a video at centre:
+ffmpeg -i video.mp4 -i image.png -filter_complex "[0:v][1:v] overlay=(W-w)/2:(H-h)/2:enable='between(t,0,20)'" -pix_fmt yuv420p -c:a copy output.mp4
+--------------------------------------------------------------------------------
+
